@@ -19,6 +19,7 @@
 		B57E966E282F51CB001E7C31 /* weatherwidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E966D282F51CB001E7C31 /* weatherwidget.swift */; };
 		B57E9670282F51CC001E7C31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57E966F282F51CC001E7C31 /* Assets.xcassets */; };
 		B57E9674282F51CC001E7C31 /* weatherwidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B57E9666282F51CB001E7C31 /* weatherwidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B57E967C283003FC001E7C31 /* URLSession.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E967B283003FC001E7C31 /* URLSession.extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		B57E966D282F51CB001E7C31 /* weatherwidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weatherwidget.swift; sourceTree = "<group>"; };
 		B57E966F282F51CC001E7C31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B57E9671282F51CC001E7C31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B57E967B283003FC001E7C31 /* URLSession.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,11 +155,28 @@
 		B57E966C282F51CB001E7C31 /* weatherwidget */ = {
 			isa = PBXGroup;
 			children = (
+				B57E967A282FF7DD001E7C31 /* Infra */,
+				B57E9679282FF7B8001E7C31 /* Entity */,
 				B57E966D282F51CB001E7C31 /* weatherwidget.swift */,
 				B57E966F282F51CC001E7C31 /* Assets.xcassets */,
 				B57E9671282F51CC001E7C31 /* Info.plist */,
 			);
 			path = weatherwidget;
+			sourceTree = "<group>";
+		};
+		B57E9679282FF7B8001E7C31 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		B57E967A282FF7DD001E7C31 /* Infra */ = {
+			isa = PBXGroup;
+			children = (
+				B57E967B283003FC001E7C31 /* URLSession.extension.swift */,
+			);
+			path = Infra;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B57E966E282F51CB001E7C31 /* weatherwidget.swift in Sources */,
+				B57E967C283003FC001E7C31 /* URLSession.extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
