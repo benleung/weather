@@ -16,21 +16,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let appId = "17b7ea249a97ab2cbc7a2f4e01d4ff8e"
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=\(appId)")!
-        let request = URLRequest(url: url)
-        URLSession.perform(request, decode: CurrentWeatherResponse.self) { (result) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let object):
-                print(object.name)
-            }
-        }
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+
+        // write in a different file later
+        let vc = ViewController()
+        vc.view.backgroundColor = UIColor(hex: "F1EFE5")  // UIColor(red: 241, green: 239, blue: 229, alpha: 1.0)
+        vc.navigationItem.title = "Weather Widget"
         
+        let vc = HomeViewController.instantiate()
         
+        // navigation
+        let navigationVC = UINavigationController(rootViewController: vc)
+        let app = UINavigationBarAppearance()
+        app.backgroundColor = .white
+        navigationVC.navigationBar.scrollEdgeAppearance = app
+        
+        window.rootViewController = navigationVC
+        // AppMain.shared.rootViewController
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -9,6 +9,13 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
+    var locationManager: LocationManager
+
+    init() {
+        locationManager = LocationManager()
+        locationManager.update()
+    }
+    
     func placeholder(in context: Context) -> Entry {
         // TODO: when data is not available yet after download
 //        let weather = WeatherCategory.sunny
@@ -28,9 +35,16 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         let currentDate = Date()
         let nextMinute = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
+        
+        locationManager.update()
+        let coordinate = locationManager.gpsLocation
 
-        let appId = "17b7ea249a97ab2cbc7a2f4e01d4ff8e"
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=\(appId)")!
+        let appId = "17b7ea249a97ab2cbc7a2f4e01d4ff8e" // TODO: refactor this into a seperate layer
+        
+        let lat = coordinate?.latitude ?? 34  // dun use tentative data
+        let lon = coordinate?.longitude ?? 139
+        
+        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(appId)")!
         let request = URLRequest(url: url)
         URLSession.perform(request, decode: CurrentWeatherResponse.self) { (result) in
             switch result {
@@ -52,104 +66,10 @@ struct Provider: TimelineProvider {
         currentWeatherResponse: CurrentWeatherResponse
     ) -> Entry {
         let weather = currentWeatherResponse.weather.first?.toWeatherCategory()
-        let location = LocationDTO(cityName: currentWeatherResponse.getCityName(), countryCode: currentWeatherResponse.getCountryCode())
+        let location = LocationDTO(cityName: currentWeatherResponse.getCityName(), countryCode: currentWeatherResponse.getCountryCode()) // FIXME: debuging
         let entry = Entry(weather: weather, location: location)
 
         return entry
-    }
-}
-
-
-
-// Entity Layer
-struct Weather: Decodable {
-    let id: Int
-    
-    /// id correspond to definition in weather.id
-    /// details: https://openweathermap.org/weather-conditions}
-    init(id: Int) {
-        self.id = id
-    }
-    
-    // TODO: Write Test
-    func toWeatherCategory() -> WeatherCategory? {
-        switch id {
-        case 200...299:
-            return .cloud // Group 2xx: Thunderstorm
-        case 300...399:
-            return .cloud // Group 3xx: Drizzle
-        case 500...599:
-            return .rain // Group 5xx: Rain
-        case 600...699:
-            return .snow // Group 6xx: Snow
-        case 700...799:
-            return .cloud // Group 7xx: Atmosphere
-        case 800:
-            return .sunny // Group 800: Clear
-        case 801:
-            return .suncloud // Group 80x: Clouds (scattered clouds: 11-25%)
-        case 802...804:
-            return .cloud // Group 80x: Clouds (scattered clouds: 25-100%)
-        default:
-            return nil  // If unrecognized id is found in api response, return nil
-        }
-    }
-}
-
-// Details: API Response of JSON https://openweathermap.org/current
-struct CurrentWeatherResponse: Decodable {
-    var name: String  // city name
-    var weather: [Weather]
-    var sys: Sys
-    
-    struct Sys: Decodable {
-        var country: String
-    }
-    
-    func getCityName() -> String {
-        return name
-    }
-    
-    func getCountryCode() -> String {
-        return sys.country
-    }
-}
-
-
-
-// Application Layer
-enum WeatherCategory {
-    case snow
-    case rain
-    case suncloud
-    case cloud
-    case sunny
-    
-    /// correspond to the image name in Assets
-    func iconName() -> String {
-        switch self {
-        
-        case .snow:
-            return "Snow"
-        case .rain:
-            return "Rain"
-        case .suncloud:
-            return "SunCloud"
-        case .cloud:
-            return "Cloud"
-        case .sunny:
-            return "Sunny"
-        }
-    }
-}
-
-
-struct LocationDTO {
-    let cityName: String // e.g. Mountain View
-    let countryCode: String // e.g. US
-
-    func displayName() -> String {
-        return "\(cityName), \(countryCode)"
     }
 }
 
@@ -168,7 +88,6 @@ struct Entry: TimelineEntry {
     }
 }
 
-
 struct weatherwidgetEntryView : View {
     var entry: Provider.Entry
 
@@ -177,37 +96,22 @@ struct weatherwidgetEntryView : View {
     var body: some View {
         switch family {
         case .systemSmall:
-            VStack {
-                Image(entry.weather?.iconName() ?? "Sunny") // TODO: placeholder for sunny
-                    .resizable()
-                    .frame(width: 67.0, height: 67.0)
-                
-                Text(entry.location?.displayName() ?? "-")
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 18))
-            }
+            SmallWeatherWidget(
+                iconName: entry.weather?.iconName(),
+                locationDisplayName: entry.location?.displayName()
+            )
             // FIXME: backgroud
         case .systemMedium:
-            VStack {
-                Image(entry.weather?.iconName() ?? "Sunny") // TODO: placeholder for sunny
-                    .resizable()
-                    .frame(width: 82.0, height: 82.0)
-                
-                Text(entry.location?.displayName() ?? "-")
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 24))
-            }
             // FIXME: backgroud
+            MediumWeatherWidget(
+                iconName: entry.weather?.iconName(),
+                locationDisplayName: entry.location?.displayName()
+            )
         case .systemLarge:
-            VStack {
-                Image(entry.weather?.iconName() ?? "Sunny") // TODO: placeholder for sunny
-                    .resizable()
-                    .frame(width: 155.0, height: 155.0)
-                
-                Text(entry.location?.displayName() ?? "-")
-                    .multilineTextAlignment(.leading)
-                    .font(.system(size: 32))
-            }
+            LargeWeatherWidget(
+                iconName: entry.weather?.iconName(),
+                locationDisplayName: entry.location?.displayName()
+            )
             // FIXME: backgroud
         @unknown default:
             // Not expected to be called
@@ -218,7 +122,7 @@ struct weatherwidgetEntryView : View {
 }
 
 @main
-struct weatherwidget: Widget {
+struct WeatherWidget: Widget {
     let kind: String = "weatherwidget"
 
     var body: some WidgetConfiguration {
