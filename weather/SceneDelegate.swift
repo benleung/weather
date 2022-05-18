@@ -22,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         // write in a different file later
-        let vc = ViewController()
-        vc.view.backgroundColor = UIColor(hex: "F1EFE5")  // UIColor(red: 241, green: 239, blue: 229, alpha: 1.0)
-        vc.navigationItem.title = "Weather Widget"
+//        let vc = ViewController()
+//        vc.view.backgroundColor = UIColor(hex: "F1EFE5")  // UIColor(red: 241, green: 239, blue: 229, alpha: 1.0)
+//        vc.navigationItem.title = "Weather Widget"
         
         let vc = HomeViewController.instantiate()
         

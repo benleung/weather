@@ -32,6 +32,13 @@
 		B57E9697283101FF001E7C31 /* UIColor.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E9696283101FF001E7C31 /* UIColor.extension.swift */; };
 		B57E969A2831DC8A001E7C31 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96992831DC8A001E7C31 /* HomeViewController.swift */; };
 		B57E969C2831DCAF001E7C31 /* HomeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E969B2831DCAF001E7C31 /* HomeViewController.storyboard */; };
+		B57E969E2833B955001E7C31 /* WeatherWidgetsPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E969D2833B955001E7C31 /* WeatherWidgetsPageVC.swift */; };
+		B57E96AC2833F48C001E7C31 /* LargeWidgetVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E96AB2833F48C001E7C31 /* LargeWidgetVC.storyboard */; };
+		B57E96AE2833F914001E7C31 /* LargeWidgetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96AD2833F914001E7C31 /* LargeWidgetVC.swift */; };
+		B57E96B02834884A001E7C31 /* MediumWidgetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96AF28348849001E7C31 /* MediumWidgetVC.swift */; };
+		B57E96B228348858001E7C31 /* SmallWidgetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96B128348858001E7C31 /* SmallWidgetVC.swift */; };
+		B57E96B4283488ED001E7C31 /* SmallWidgetVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */; };
+		B57E96B628348900001E7C31 /* MediumWidgetVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +102,13 @@
 		B57E9696283101FF001E7C31 /* UIColor.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.extension.swift; sourceTree = "<group>"; };
 		B57E96992831DC8A001E7C31 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B57E969B2831DCAF001E7C31 /* HomeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeViewController.storyboard; sourceTree = "<group>"; };
+		B57E969D2833B955001E7C31 /* WeatherWidgetsPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetsPageVC.swift; sourceTree = "<group>"; };
+		B57E96AB2833F48C001E7C31 /* LargeWidgetVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LargeWidgetVC.storyboard; sourceTree = "<group>"; };
+		B57E96AD2833F914001E7C31 /* LargeWidgetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetVC.swift; sourceTree = "<group>"; };
+		B57E96AF28348849001E7C31 /* MediumWidgetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetVC.swift; sourceTree = "<group>"; };
+		B57E96B128348858001E7C31 /* SmallWidgetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetVC.swift; sourceTree = "<group>"; };
+		B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SmallWidgetVC.storyboard; sourceTree = "<group>"; };
+		B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MediumWidgetVC.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +249,13 @@
 			children = (
 				B57E96992831DC8A001E7C31 /* HomeViewController.swift */,
 				B57E969B2831DCAF001E7C31 /* HomeViewController.storyboard */,
+				B57E969D2833B955001E7C31 /* WeatherWidgetsPageVC.swift */,
+				B57E96AD2833F914001E7C31 /* LargeWidgetVC.swift */,
+				B57E96AB2833F48C001E7C31 /* LargeWidgetVC.storyboard */,
+				B57E96AF28348849001E7C31 /* MediumWidgetVC.swift */,
+				B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */,
+				B57E96B128348858001E7C31 /* SmallWidgetVC.swift */,
+				B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -362,7 +383,10 @@
 				B57E969C2831DCAF001E7C31 /* HomeViewController.storyboard in Resources */,
 				B57E963F282F508B001E7C31 /* LaunchScreen.storyboard in Resources */,
 				B57E963C282F508B001E7C31 /* Assets.xcassets in Resources */,
+				B57E96B4283488ED001E7C31 /* SmallWidgetVC.storyboard in Resources */,
+				B57E96B628348900001E7C31 /* MediumWidgetVC.storyboard in Resources */,
 				B57E963A282F508A001E7C31 /* Main.storyboard in Resources */,
+				B57E96AC2833F48C001E7C31 /* LargeWidgetVC.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,11 +412,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57E96B02834884A001E7C31 /* MediumWidgetVC.swift in Sources */,
 				B57E9697283101FF001E7C31 /* UIColor.extension.swift in Sources */,
 				B57E9637282F508A001E7C31 /* ViewController.swift in Sources */,
+				B57E969E2833B955001E7C31 /* WeatherWidgetsPageVC.swift in Sources */,
 				B57E9633282F508A001E7C31 /* AppDelegate.swift in Sources */,
 				B57E96952830EFCA001E7C31 /* AppMain.swift in Sources */,
+				B57E96B228348858001E7C31 /* SmallWidgetVC.swift in Sources */,
 				B57E9635282F508A001E7C31 /* SceneDelegate.swift in Sources */,
+				B57E96AE2833F914001E7C31 /* LargeWidgetVC.swift in Sources */,
 				B57E969A2831DC8A001E7C31 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

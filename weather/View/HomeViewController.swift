@@ -8,10 +8,20 @@
 import UIKit
 
 final class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public override func viewDidLoad() {
+    @IBOutlet private weak var viewForPageVC: UIView!
+    @IBOutlet private weak var pageControl: UIPageControl!
+    private var pageVc: WeatherWidgetsPageVC!
+
+    override func viewDidLoad() {
         super.viewDidLoad()
+
+        _ = self.view   // Prompt IBOutlet to be loaded
+
+        pageVc = WeatherWidgetsPageVC.instantiate(pageControl: pageControl)
+
+        setupViews()
     }
-    
+
     static func instantiate() -> HomeViewController {
         let vc = UIStoryboard(name: "HomeViewController", bundle: nil).instantiateViewController(identifier: "HomeViewController") as! HomeViewController
         vc.navigationItem.title = "Weather Widget"
@@ -31,10 +41,24 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController,
                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let imageURL = info[UIImagePickerController.InfoKey.imageURL] as? NSURL {
-            print(imageURL.path) // FIXME: debuging
+            pageVc.updateWidgetsBackground(imageURLPath: imageURL.path)
         }
         dismiss(animated: true, completion: {
             // FIXME: do something with the image
         })
+    }
+
+    // MARK: Private Functions
+    private func setupViews() {
+        viewForPageVC.translatesAutoresizingMaskIntoConstraints = false
+        viewForPageVC.addSubview(pageVc.view)
+        pageVc.view.frame = viewForPageVC.frame
+        pageVc.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageVc.view.topAnchor.constraint(equalTo: viewForPageVC.topAnchor),
+            pageVc.view.leftAnchor.constraint(equalTo: viewForPageVC.leftAnchor),
+            pageVc.view.bottomAnchor.constraint(equalTo: viewForPageVC.bottomAnchor),
+            pageVc.view.rightAnchor.constraint(equalTo: viewForPageVC.rightAnchor)
+        ])
     }
 }
