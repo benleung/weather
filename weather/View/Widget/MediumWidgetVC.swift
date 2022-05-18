@@ -7,9 +7,14 @@
 
 import UIKit
 
-final class MediumWidgetVC: UIViewController {
+final class MediumWidgetVC: UIViewController, WidgetVCProtocol {
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var overlayView: UIView!
+    @IBOutlet weak var locationNameLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateBackground()
     }
 
     static func instantiate() -> MediumWidgetVC {

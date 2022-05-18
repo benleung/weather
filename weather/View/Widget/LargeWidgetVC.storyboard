@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,6 +15,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QX2-m7-yD5">
+                                <rect key="frame" x="42" y="275.5" width="330" height="345"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LsA-f3-gx5">
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="345"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHK-ji-DxN" userLabel="Overlay">
+                                        <rect key="frame" x="0.0" y="0.0" width="330" height="345"/>
+                                        <color key="backgroundColor" systemColor="labelColor"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="LsA-f3-gx5" firstAttribute="leading" secondItem="QX2-m7-yD5" secondAttribute="leading" id="6W0-eW-GZJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="fHK-ji-DxN" secondAttribute="trailing" id="89U-OF-2l4"/>
+                                    <constraint firstAttribute="bottom" secondItem="fHK-ji-DxN" secondAttribute="bottom" id="Asx-8h-q2r"/>
+                                    <constraint firstAttribute="trailing" secondItem="LsA-f3-gx5" secondAttribute="trailing" id="FMN-K4-0g6"/>
+                                    <constraint firstItem="fHK-ji-DxN" firstAttribute="top" secondItem="QX2-m7-yD5" secondAttribute="top" id="m1M-WU-DKd"/>
+                                    <constraint firstItem="LsA-f3-gx5" firstAttribute="top" secondItem="QX2-m7-yD5" secondAttribute="top" id="pcC-ys-lGX"/>
+                                    <constraint firstAttribute="bottom" secondItem="LsA-f3-gx5" secondAttribute="bottom" id="tRZ-j5-Hlm"/>
+                                    <constraint firstItem="fHK-ji-DxN" firstAttribute="leading" secondItem="QX2-m7-yD5" secondAttribute="leading" id="vhx-LS-GMo"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nyV-ZL-PfJ">
                                 <rect key="frame" x="42" y="275.5" width="330" height="345"/>
                                 <subviews>
@@ -22,7 +52,6 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sunny" translatesAutoresizingMaskIntoConstraints="NO" id="sut-HZ-M8k">
                                                 <rect key="frame" x="71.5" y="49" width="155" height="155"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="155" id="2X8-3X-GBQ"/>
                                                     <constraint firstAttribute="width" constant="155" id="J09-nD-DmA"/>
@@ -41,7 +70,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="345" id="kPb-TJ-z8p"/>
                                     <constraint firstAttribute="width" constant="330" id="uas-2P-JRX"/>
@@ -57,8 +85,17 @@
                         <constraints>
                             <constraint firstItem="nyV-ZL-PfJ" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="aMr-93-D1d"/>
                             <constraint firstItem="nyV-ZL-PfJ" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="bQT-Z7-btx"/>
+                            <constraint firstItem="QX2-m7-yD5" firstAttribute="leading" secondItem="nyV-ZL-PfJ" secondAttribute="leading" id="krr-kp-8ym"/>
+                            <constraint firstItem="QX2-m7-yD5" firstAttribute="bottom" secondItem="nyV-ZL-PfJ" secondAttribute="bottom" id="r4S-EC-fhW"/>
+                            <constraint firstItem="QX2-m7-yD5" firstAttribute="top" secondItem="nyV-ZL-PfJ" secondAttribute="top" id="r6c-nw-lS7"/>
+                            <constraint firstItem="QX2-m7-yD5" firstAttribute="trailing" secondItem="nyV-ZL-PfJ" secondAttribute="trailing" id="sQ9-KA-EuQ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backgroundImage" destination="LsA-f3-gx5" id="Y0A-1g-T0s"/>
+                        <outlet property="locationNameLabel" destination="b1t-NE-Zb8" id="Kdw-qM-moj"/>
+                        <outlet property="overlayView" destination="fHK-ji-DxN" id="lyo-RR-b28"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -67,5 +104,8 @@
     </scenes>
     <resources>
         <image name="Sunny" width="120" height="120"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -7,9 +7,14 @@
 
 import UIKit
 
-final class LargeWidgetVC: UIViewController {
+final class LargeWidgetVC: UIViewController, WidgetVCProtocol {
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var overlayView: UIView!
+    @IBOutlet weak var locationNameLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateBackground()
     }
 
     static func instantiate() -> LargeWidgetVC {

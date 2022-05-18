@@ -9,25 +9,10 @@ import Foundation
 import UIKit
 
 class WeatherWidgetsPageVC: UIPageViewController {
-    private var largeWidget: UIViewController = {
-        let vc = LargeWidgetVC.instantiate()
-        return vc
-    }()
-    
-    private var mediumWidget: UIViewController = {
-        let vc = MediumWidgetVC.instantiate()
-        return vc
-    }()
-    
-    private var smallWidget: UIViewController = {
-        let vc = SmallWidgetVC.instantiate()
-        return vc
-    }()
-    
     private lazy var widgets: [UIViewController] = [
-        smallWidget,
-        mediumWidget,
-        largeWidget,
+        SmallWidgetVC.instantiate(),
+        MediumWidgetVC.instantiate(),
+        LargeWidgetVC.instantiate(),
     ]
     
     private weak var pageControl: UIPageControl!
@@ -45,7 +30,11 @@ class WeatherWidgetsPageVC: UIPageViewController {
     }
     
     func updateWidgetsBackground(imageURLPath: String?) {
-        print("updateWidgetsBackground() \(imageURLPath)")
+        for widget in widgets {
+            if let widget = widget as? WidgetVCProtocol {
+                widget.updateBackground(url: imageURLPath)
+            }
+        }
     }
     
     static func instantiate(pageControl: UIPageControl) -> WeatherWidgetsPageVC {

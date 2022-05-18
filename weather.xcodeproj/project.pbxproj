@@ -39,6 +39,7 @@
 		B57E96B228348858001E7C31 /* SmallWidgetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96B128348858001E7C31 /* SmallWidgetVC.swift */; };
 		B57E96B4283488ED001E7C31 /* SmallWidgetVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */; };
 		B57E96B628348900001E7C31 /* MediumWidgetVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */; };
+		B57E96B928349A94001E7C31 /* WidgetVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E96B828349A94001E7C31 /* WidgetVCProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		B57E96B128348858001E7C31 /* SmallWidgetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetVC.swift; sourceTree = "<group>"; };
 		B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SmallWidgetVC.storyboard; sourceTree = "<group>"; };
 		B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MediumWidgetVC.storyboard; sourceTree = "<group>"; };
+		B57E96B828349A94001E7C31 /* WidgetVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetVCProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,15 +249,10 @@
 		B57E96922830EE2A001E7C31 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B57E96B728349787001E7C31 /* Widget */,
 				B57E96992831DC8A001E7C31 /* HomeViewController.swift */,
 				B57E969B2831DCAF001E7C31 /* HomeViewController.storyboard */,
 				B57E969D2833B955001E7C31 /* WeatherWidgetsPageVC.swift */,
-				B57E96AD2833F914001E7C31 /* LargeWidgetVC.swift */,
-				B57E96AB2833F48C001E7C31 /* LargeWidgetVC.storyboard */,
-				B57E96AF28348849001E7C31 /* MediumWidgetVC.swift */,
-				B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */,
-				B57E96B128348858001E7C31 /* SmallWidgetVC.swift */,
-				B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +271,20 @@
 				B57E9696283101FF001E7C31 /* UIColor.extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		B57E96B728349787001E7C31 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				B57E96AD2833F914001E7C31 /* LargeWidgetVC.swift */,
+				B57E96AB2833F48C001E7C31 /* LargeWidgetVC.storyboard */,
+				B57E96AF28348849001E7C31 /* MediumWidgetVC.swift */,
+				B57E96B528348900001E7C31 /* MediumWidgetVC.storyboard */,
+				B57E96B128348858001E7C31 /* SmallWidgetVC.swift */,
+				B57E96B3283488ED001E7C31 /* SmallWidgetVC.storyboard */,
+				B57E96B828349A94001E7C31 /* WidgetVCProtocol.swift */,
+			);
+			path = Widget;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,6 +430,7 @@
 				B57E9633282F508A001E7C31 /* AppDelegate.swift in Sources */,
 				B57E96952830EFCA001E7C31 /* AppMain.swift in Sources */,
 				B57E96B228348858001E7C31 /* SmallWidgetVC.swift in Sources */,
+				B57E96B928349A94001E7C31 /* WidgetVCProtocol.swift in Sources */,
 				B57E9635282F508A001E7C31 /* SceneDelegate.swift in Sources */,
 				B57E96AE2833F914001E7C31 /* LargeWidgetVC.swift in Sources */,
 				B57E969A2831DC8A001E7C31 /* HomeViewController.swift in Sources */,
