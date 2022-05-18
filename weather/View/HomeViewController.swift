@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 final class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet private weak var viewForPageVC: UIView!
@@ -17,8 +18,10 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
 
         _ = self.view   // Prompt IBOutlet to be loaded
 
-        pageVc = WeatherWidgetsPageVC.instantiate(pageControl: pageControl)
-
+        
+//        LocationManager()
+        
+        setupWeatherWidgetsPageVC()
         setupViews()
     }
 
@@ -40,11 +43,19 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController,
                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let imageURL = info[UIImagePickerController.InfoKey.imageURL] as? NSURL {
-            pageVc.updateWidgetsBackground(imageURLPath: imageURL.path)
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+//            UserDefaults(suiteName: "group.benleung.weather")?.set(imageURL.path, forKey: "backgroundImageUrl")
+//
+            
+            let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.benleung.weather")!
+            let someFileURL = containerURL.appendingPathComponent("background.jpg")
+            someFileURL.saveImage(image)
+            pageVc.updateWidgetsBackground(image: image)
+            WidgetCenter.shared.reloadAllTimelines()
         }
         dismiss(animated: true, completion: {
             // FIXME: do something with the image
+            
         })
     }
 
@@ -60,5 +71,12 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
             pageVc.view.bottomAnchor.constraint(equalTo: viewForPageVC.bottomAnchor),
             pageVc.view.rightAnchor.constraint(equalTo: viewForPageVC.rightAnchor)
         ])
+    }
+    
+    private func setupWeatherWidgetsPageVC() {
+        pageVc = WeatherWidgetsPageVC.instantiate(pageControl: pageControl)
+        
+        let backgroundImageUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.benleung.weather")!.appendingPathComponent("background.jpg")
+        pageVc.updateWidgetsBackground(imageURLPath: backgroundImageUrl)
     }
 }

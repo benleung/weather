@@ -12,24 +12,15 @@ protocol WidgetVCProtocol {
     var overlayView: UIView! { get }
     var locationNameLabel: UILabel! { get }
     
-    func updateBackground(url: String?)
+    func updateBackground(image: UIImage?)
 }
 
 extension WidgetVCProtocol {
-    func updateBackground(url: String? = nil) {
+    func updateBackground(image: UIImage? = nil) {
         let isHasBackground: Bool
-        if let url = url {
-            do {
-                let nsurl = URL(fileURLWithPath: url)
-                let imageData = try Data(contentsOf: nsurl)
-                backgroundImage.image = UIImage(data: imageData as Data)
-                
-                isHasBackground = true
-            } catch {
-                print("Error loading image : \(error)")
-
-                isHasBackground = false
-            }
+        if let image = image {
+            backgroundImage.image = image
+            isHasBackground = true
         } else {
             isHasBackground = false
         }

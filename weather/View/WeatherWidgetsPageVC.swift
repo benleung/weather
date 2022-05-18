@@ -29,13 +29,18 @@ class WeatherWidgetsPageVC: UIPageViewController {
         delegate = self
     }
     
-    func updateWidgetsBackground(imageURLPath: String?) {
+    func updateWidgetsBackground(image: UIImage?) {
         for widget in widgets {
+            _ = widget.view // FIXME: write in better way
             if let widget = widget as? WidgetVCProtocol {
-                widget.updateBackground(url: imageURLPath)
+                widget.updateBackground(image: image)
             }
         }
     }
+    
+    func updateWidgetsBackground(imageURLPath: URL?) {
+        updateWidgetsBackground(image: getBackgroundImage(url: imageURLPath))
+     }
     
     static func instantiate(pageControl: UIPageControl) -> WeatherWidgetsPageVC {
         let vc = WeatherWidgetsPageVC(
@@ -46,6 +51,20 @@ class WeatherWidgetsPageVC: UIPageViewController {
         vc.pageControl = pageControl
         vc.pageControl.isUserInteractionEnabled = false
         return vc
+    }
+    
+    // FIXME: can refactor
+    private func getBackgroundImage(url: URL? = nil) -> UIImage? {
+        guard let url = url else {
+            return nil
+        }
+        do {
+            let imageData = try Data(contentsOf: url)
+            return UIImage(data: imageData)
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }
 

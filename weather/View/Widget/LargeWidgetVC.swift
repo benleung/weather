@@ -8,6 +8,7 @@
 import UIKit
 
 final class LargeWidgetVC: UIViewController, WidgetVCProtocol {
+
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var overlayView: UIView!
     @IBOutlet weak var locationNameLabel: UILabel!

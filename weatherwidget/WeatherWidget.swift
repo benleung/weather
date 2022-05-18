@@ -44,6 +44,7 @@ struct Provider: TimelineProvider {
         let lat = coordinate?.latitude ?? 34  // dun use tentative data
         let lon = coordinate?.longitude ?? 139
         
+        
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(appId)")!
         let request = URLRequest(url: url)
         URLSession.perform(request, decode: CurrentWeatherResponse.self) { (result) in
@@ -66,8 +67,16 @@ struct Provider: TimelineProvider {
         currentWeatherResponse: CurrentWeatherResponse
     ) -> Entry {
         let weather = currentWeatherResponse.weather.first?.toWeatherCategory()
-        let location = LocationDTO(cityName: currentWeatherResponse.getCityName(), countryCode: currentWeatherResponse.getCountryCode()) // FIXME: debuging
-        let entry = Entry(weather: weather, location: location)
+        let location = LocationDTO(
+            cityName: currentWeatherResponse.getCityName(),
+            countryCode: currentWeatherResponse.getCountryCode()
+        )
+
+        let entry = Entry(
+            weather: weather,
+            location: location,
+            backgroundImage: FileStorage.shared.getBackgroundImage()
+        )
 
         return entry
     }
@@ -78,13 +87,13 @@ struct Entry: TimelineEntry {
     
     var weather: WeatherCategory?
     var location: LocationDTO?
-    // backgroundImage
-    // textColor
+    var backgroundImage: UIImage?
     
-    init(weather: WeatherCategory?, location: LocationDTO?) {
+    init(weather: WeatherCategory?, location: LocationDTO?, backgroundImage: UIImage? = nil) {
         date = Date()
         self.weather = weather
         self.location = location
+        self.backgroundImage = backgroundImage
     }
 }
 
@@ -98,21 +107,22 @@ struct weatherwidgetEntryView : View {
         case .systemSmall:
             SmallWeatherWidget(
                 iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName()
+                locationDisplayName: entry.location?.displayName(),
+                backgroundImage: entry.backgroundImage
             )
-            // FIXME: backgroud
         case .systemMedium:
-            // FIXME: backgroud
             MediumWeatherWidget(
                 iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName()
+                locationDisplayName: entry.location?.displayName(),
+                backgroundImage: entry.backgroundImage
+                
             )
         case .systemLarge:
             LargeWeatherWidget(
                 iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName()
+                locationDisplayName: entry.location?.displayName(),
+                backgroundImage: entry.backgroundImage
             )
-            // FIXME: backgroud
         @unknown default:
             // Not expected to be called
             EmptyView()

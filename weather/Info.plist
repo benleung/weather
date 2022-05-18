@@ -30,5 +30,7 @@
 	<string>Location is required to show weather at your current location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location is required to show weather at your current location</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Photo is required to upload background images from your photo library</string>
 </dict>
 </plist>
