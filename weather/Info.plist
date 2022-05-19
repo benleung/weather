@@ -21,7 +21,6 @@
 			</array>
 		</dict>
 	</dict>
-
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is required to show weather at your current location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -30,7 +29,11 @@
 	<string>Location is required to show weather at your current location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location is required to show weather at your current location</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo is required to upload background images from your photo library</string>
+	<key>NSLocationDefaultAccuracyReduced</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

@@ -17,5 +17,7 @@
 	<string>Location is required to show weather at your current location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location is required to show weather at your current location</string>
+	<key>NSLocationDefaultAccuracyReduced</key>
+	<true/>
 </dict>
 </plist>

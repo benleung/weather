@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import infra
 
 final class BackgroundImageRepository {
     // MARK: background image

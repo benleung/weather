@@ -7,15 +7,9 @@
 
 import WidgetKit
 import SwiftUI
+import infra
 
 struct Provider: TimelineProvider {
-    var locationManager: LocationManager
-
-    init() {
-        locationManager = LocationManager()
-        locationManager.fetchLatestGpsLocation()
-    }
-
     /// Data for immediate after installation
     func placeholder(in context: Context) -> Entry {
         return Entry(weather: nil, location: nil)
@@ -31,9 +25,9 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        locationManager.fetchLatestGpsLocation()
+        LocationManager.shared.fetchLatestGpsLocation()
 
-        guard let coordinate = locationManager.gpsLocation else {
+        guard let coordinate = LocationManager.shared.gpsLocation else {
             getPlaceholderTimeLine(in: context, completion: completion)
             return
         }

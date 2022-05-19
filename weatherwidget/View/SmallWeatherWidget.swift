@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 struct SmallWeatherWidget: View {
-    let iconName: String?
+    let iconName: String
     let locationDisplayName: String?
     let backgroundImage: UIImage?
 
-    init(iconName: String?, locationDisplayName: String?, backgroundImage: UIImage?) {
+    init(iconName: String, locationDisplayName: String?, backgroundImage: UIImage?) {
         self.iconName = iconName
         self.locationDisplayName = locationDisplayName
         self.backgroundImage = backgroundImage
@@ -33,7 +33,7 @@ struct SmallWeatherWidget: View {
             }
             
             VStack {
-                Image(iconName ?? "Sunny") // TODO: placeholder for sunny
+                Image(iconName)
                     .resizable()
                     .frame(width: 67.0, height: 67.0)
                 

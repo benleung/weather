@@ -7,6 +7,7 @@
 
 import UIKit
 import WidgetKit
+import infra
 
 final class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet private weak var viewForPageVC: UIView!
@@ -20,6 +21,9 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
 
         setupWeatherWidgetsPageVC()
         setupViews()
+        
+        // FIXME: authentication
+        LocationManager.shared.requestAlwaysAuthorization()
     }
 
     static func instantiate() -> HomeViewController {
@@ -41,10 +45,7 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController,
                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // FIXME: generalize this piece of code with widget
-            let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.benleung.weather")!
-            let someFileURL = containerURL.appendingPathComponent("background.jpg")
-            someFileURL.saveImage(image)
+            FileStorage.shared.saveUIImage(image: image, filename: .backgroundImage)
             pageVc.updateWidgetsBackground(image: image)
             WidgetCenter.shared.reloadAllTimelines()
         }
@@ -67,8 +68,6 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
     
     private func setupWeatherWidgetsPageVC() {
         pageVc = WeatherWidgetsPageVC.instantiate(pageControl: pageControl)
-        
-        let backgroundImageUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.benleung.weather")!.appendingPathComponent("background.jpg")
-        pageVc.updateWidgetsBackground(imageURLPath: backgroundImageUrl)
+        pageVc.updateWidgetsBackground(image: FileStorage.shared.getUIImage(of: .backgroundImage))
     }
 }

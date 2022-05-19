@@ -37,11 +37,7 @@ class WeatherWidgetsPageVC: UIPageViewController {
             }
         }
     }
-    
-    func updateWidgetsBackground(imageURLPath: URL?) {
-        updateWidgetsBackground(image: getBackgroundImage(url: imageURLPath))
-     }
-    
+
     static func instantiate(pageControl: UIPageControl) -> WeatherWidgetsPageVC {
         let vc = WeatherWidgetsPageVC(
             transitionStyle: .scroll,
