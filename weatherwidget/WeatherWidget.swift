@@ -13,122 +13,84 @@ struct Provider: TimelineProvider {
 
     init() {
         locationManager = LocationManager()
-        locationManager.update()
+        locationManager.fetchLatestGpsLocation()
     }
-    
+
+    /// Data for immediate after installation
     func placeholder(in context: Context) -> Entry {
-        // TODO: when data is not available yet after download
-//        let weather = WeatherCategory.sunny
-//        let location = LocationDTO.init(cityName: <#T##String#>, countryCode: <#T##String#>)
         return Entry(weather: nil, location: nil)
     }
 
-    // Mock Data for Widget Gallery
+    /// Mock Data for Widget Gallery
     func getSnapshot(in context: Context, completion: @escaping (Entry) -> ()) {
         let weather = WeatherCategory.sunny
         let location = LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")
         let entry = Entry(weather: weather, location: location)
-        
+
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        let currentDate = Date()
-        let nextMinute = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
-        
-        locationManager.update()
-        let coordinate = locationManager.gpsLocation
+        locationManager.fetchLatestGpsLocation()
 
-        let appId = "17b7ea249a97ab2cbc7a2f4e01d4ff8e" // TODO: refactor this into a seperate layer
-        
-        let lat = coordinate?.latitude ?? 34  // dun use tentative data
-        let lon = coordinate?.longitude ?? 139
-        
-        
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(appId)")!
-        let request = URLRequest(url: url)
-        URLSession.perform(request, decode: CurrentWeatherResponse.self) { (result) in
-            switch result {
-            case .failure(let error):
-                // FIXME: error handling
-                let entries: [Entry] = []
-                let timeline = Timeline(entries: entries, policy: .after(nextMinute))
-                completion(timeline)
-            case .success(let object):
-                let entries: [Entry] = [convertApiResponseToEntry(currentWeatherResponse: object)]
-                
-                let timeline = Timeline(entries: entries, policy: .after(nextMinute))
-                completion(timeline)
+        guard let coordinate = locationManager.gpsLocation else {
+            getPlaceholderTimeLine(in: context, completion: completion)
+            return
+        }
+
+        CurrentWeatherRepository.fetchWeatherEntryFrom(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        ) { entry in
+            let currentDate = Date()
+            let nextMinute = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
+
+            var entries = [Entry]()
+            if let entry = entry {
+                // do not update widget's content (keep it as it is) when there is error
+                entries.append(entry)
             }
+            let timeline = Timeline(entries: entries, policy: .after(nextMinute))
+            completion(timeline)
         }
     }
     
-    private func convertApiResponseToEntry(
-        currentWeatherResponse: CurrentWeatherResponse
-    ) -> Entry {
-        let weather = currentWeatherResponse.weather.first?.toWeatherCategory()
-        let location = LocationDTO(
-            cityName: currentWeatherResponse.getCityName(),
-            countryCode: currentWeatherResponse.getCountryCode()
-        )
-
-        let entry = Entry(
-            weather: weather,
-            location: location,
-            backgroundImage: FileStorage.shared.getBackgroundImage()
-        )
-
-        return entry
+    private func getPlaceholderTimeLine(in context: Context, completion: @escaping ((Timeline<Entry>) -> ())) {
+        let currentDate = Date()
+        let nextMinute = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
+        
+        let timeline = Timeline(entries: [placeholder(in: context)], policy: .after(nextMinute))
+        completion(timeline)
     }
 }
 
 struct Entry: TimelineEntry {
     var date: Date
-    
+
     var weather: WeatherCategory?
     var location: LocationDTO?
     var backgroundImage: UIImage?
-    
+
     init(weather: WeatherCategory?, location: LocationDTO?, backgroundImage: UIImage? = nil) {
         date = Date()
         self.weather = weather
         self.location = location
         self.backgroundImage = backgroundImage
     }
-}
 
-struct weatherwidgetEntryView : View {
-    var entry: Provider.Entry
+    init(currentWeatherResponse: CurrentWeatherResponse) {
+        date = Date()
 
-    @Environment(\.widgetFamily) var family: WidgetFamily
-    
-    var body: some View {
-        switch family {
-        case .systemSmall:
-            SmallWeatherWidget(
-                iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName(),
-                backgroundImage: entry.backgroundImage
-            )
-        case .systemMedium:
-            MediumWeatherWidget(
-                iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName(),
-                backgroundImage: entry.backgroundImage
-                
-            )
-        case .systemLarge:
-            LargeWeatherWidget(
-                iconName: entry.weather?.iconName(),
-                locationDisplayName: entry.location?.displayName(),
-                backgroundImage: entry.backgroundImage
-            )
-        @unknown default:
-            // Not expected to be called
-            EmptyView()
-        }
+        let weather = currentWeatherResponse.getWeatherCategory()
+        let location = LocationDTO(
+            cityName: currentWeatherResponse.getCityName(),
+            countryCode: currentWeatherResponse.getCountryCode()
+        )
+
+        self.weather = weather
+        self.location = location
+        self.backgroundImage = BackgroundImageRepository.getBackgroundImage()
     }
-    
 }
 
 @main
@@ -137,7 +99,7 @@ struct WeatherWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            weatherwidgetEntryView(entry: entry)
+            WeatherWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Weather Widget")
         .description("This is a weather widget.")
@@ -147,13 +109,31 @@ struct WeatherWidget: Widget {
 
 struct weatherwidget_Previews: PreviewProvider {
     static var previews: some View {
-        weatherwidgetEntryView(entry: Entry(weather: .sunny, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
+        // Small Widget
+        WeatherWidgetEntryView(entry: Entry(weather: .sunny, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
         
-        weatherwidgetEntryView(entry: Entry(weather: .sunny, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        WeatherWidgetEntryView(entry: Entry(weather: .suncloud, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
         
-        weatherwidgetEntryView(entry: Entry(weather: .sunny, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
+        WeatherWidgetEntryView(entry: Entry(weather: .cloud, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+
+        
+        // Medium Widget
+        WeatherWidgetEntryView(entry: Entry(weather: .rain, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+
+        // Large Widget
+        WeatherWidgetEntryView(entry: Entry(weather: .snow, location: LocationDTO(cityName: "San Francisco, CA", countryCode: "USA")))
             .previewContext(WidgetPreviewContext(family: .systemLarge))
+        
+        // Edge case: if only location data not found
+        WeatherWidgetEntryView(entry: Entry(weather: .sunny, location: nil))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        
+        // Edge case: if weather data not found
+        WeatherWidgetEntryView(entry: Entry(weather: nil, location: nil))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

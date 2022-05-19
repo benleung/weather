@@ -24,4 +24,8 @@ struct CurrentWeatherResponse: Decodable {
     func getCountryCode() -> String {
         return sys.country
     }
+
+    func getWeatherCategory() -> WeatherCategory? {
+        return weather.first?.toWeatherCategory()
+    }
 }

@@ -17,10 +17,19 @@ class FileStorage {
         case backgroundImage = "background.jpg"
     }
 
-    // MARK: background image
-    func getBackgroundImage() -> UIImage? {
+    // MARK: internal functions
+    func getContainerUrl() -> URL {
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)!
+    }
+
+    func getFileUrl(filename: Filename) -> URL {
+        return getContainerUrl().appendingPathComponent(filename.rawValue)
+    }
+    
+    func getUIImage(of filename: Filename) -> UIImage? {
+        
         // need to match with file name in main app
-        let imageURL = getFileUrl(filename: .backgroundImage)
+        let imageURL = getFileUrl(filename: filename)
 
         guard FileManager.default.fileExists(atPath: imageURL.path) else {
             return nil
@@ -32,15 +41,5 @@ class FileStorage {
         } catch {
             return nil
         }
-    }
-    
-    
-    // MARK: Private Functions
-    private func getContainerUrl() -> URL {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)!
-    }
-
-    private func getFileUrl(filename: Filename) -> URL {
-        return getContainerUrl().appendingPathComponent(filename.rawValue)
     }
 }

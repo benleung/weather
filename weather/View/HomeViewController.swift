@@ -18,9 +18,6 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
 
         _ = self.view   // Prompt IBOutlet to be loaded
 
-        
-//        LocationManager()
-        
         setupWeatherWidgetsPageVC()
         setupViews()
     }
@@ -30,7 +27,7 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
         vc.navigationItem.title = "Weather Widget"
         return vc
     }
-    
+
     @IBAction func didTapChangeBackgroundButton(_ sender: UIButton) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -39,24 +36,19 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker.modalTransitionStyle = .coverVertical
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
+
     // MARK: UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController,
                                     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-//            UserDefaults(suiteName: "group.benleung.weather")?.set(imageURL.path, forKey: "backgroundImageUrl")
-//
-            
+            // FIXME: generalize this piece of code with widget
             let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.benleung.weather")!
             let someFileURL = containerURL.appendingPathComponent("background.jpg")
             someFileURL.saveImage(image)
             pageVc.updateWidgetsBackground(image: image)
             WidgetCenter.shared.reloadAllTimelines()
         }
-        dismiss(animated: true, completion: {
-            // FIXME: do something with the image
-            
-        })
+        dismiss(animated: true)
     }
 
     // MARK: Private Functions
