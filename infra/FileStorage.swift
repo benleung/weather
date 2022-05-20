@@ -34,6 +34,20 @@ public class FileStorage {
         }
     }
 
+    public func removeFile(of filename: Filename) {
+        let filePath = getFileUrl(filename: filename).path
+
+        guard FileManager.default.fileExists(atPath: filePath) else {
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(atPath: filePath)
+        } catch {
+            return
+        }
+    }
+
     public func saveUIImage(image: UIImage, filename: Filename) {
 
         // need to match with file name in main app

@@ -20,17 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        
-        let vc = HomeViewController.instantiate()
-        
+
         // navigation
-        let navigationVC = UINavigationController(rootViewController: vc)
+        let navigationVC = UINavigationController(rootViewController: HomeViewController.instantiate())
         let app = UINavigationBarAppearance()
         app.backgroundColor = .white
         navigationVC.navigationBar.scrollEdgeAppearance = app
         
         window.rootViewController = navigationVC
-        // AppMain.shared.rootViewController
         window.makeKeyAndVisible()
     }
 

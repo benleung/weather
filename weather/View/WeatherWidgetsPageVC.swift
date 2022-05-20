@@ -31,13 +31,13 @@ class WeatherWidgetsPageVC: UIPageViewController {
     
     func updateWidgetsBackground(image: UIImage?) {
         for widget in widgets {
-            _ = widget.view // FIXME: write in better way
+            _ = widget.view  // Prompt IBOutlet to be loaded, if not loaded yet
             if let widget = widget as? WidgetVCProtocol {
                 widget.updateBackground(image: image)
             }
         }
     }
-
+    
     static func instantiate(pageControl: UIPageControl) -> WeatherWidgetsPageVC {
         let vc = WeatherWidgetsPageVC(
             transitionStyle: .scroll,
@@ -48,20 +48,7 @@ class WeatherWidgetsPageVC: UIPageViewController {
         vc.pageControl.isUserInteractionEnabled = false
         return vc
     }
-    
-    // FIXME: can refactor
-    private func getBackgroundImage(url: URL? = nil) -> UIImage? {
-        guard let url = url else {
-            return nil
-        }
-        do {
-            let imageData = try Data(contentsOf: url)
-            return UIImage(data: imageData)
-        } catch {
-            print(error)
-            return nil
-        }
-    }
+
 }
 
 extension WeatherWidgetsPageVC: UIPageViewControllerDelegate, UIPageViewControllerDataSource {

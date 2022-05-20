@@ -21,9 +21,6 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
 
         setupWeatherWidgetsPageVC()
         setupViews()
-        
-        // FIXME: authentication
-        LocationManager.shared.requestAlwaysAuthorization()
     }
 
     static func instantiate() -> HomeViewController {
