@@ -21,6 +21,9 @@ final class HomeViewController: UIViewController, UIImagePickerControllerDelegat
 
         setupWeatherWidgetsPageVC()
         setupViews()
+        
+        // Prompts diaglog for Location Authorization
+        LocationManager.shared.requestAlwaysAuthorization()
     }
 
     static func instantiate() -> HomeViewController {

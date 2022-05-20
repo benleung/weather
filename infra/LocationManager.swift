@@ -31,16 +31,12 @@ public class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObj
     }
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("didChangeAuthorization \(status.rawValue)")
-        print("authorizedForWidgetUpdates \(manager.isAuthorizedForWidgetUpdates)")
-        
         switch status {
         case .authorizedAlways:
             self.manager.startUpdatingLocation()
         case .authorizedWhenInUse:
             self.manager.startUpdatingLocation()
             self.manager.requestAlwaysAuthorization()
-
         case .notDetermined, .denied, .restricted:
             self.manager.requestAlwaysAuthorization()
 
@@ -50,9 +46,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObj
     }
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let minDistanceToUpdateLocation: CLLocationDistance = 2500.0  // unit: in terms of meter
-        print("didUpdateLocations \(locations.last)")
-
         fetchLatestGpsLocation()
         WidgetCenter.shared.reloadAllTimelines()
     }

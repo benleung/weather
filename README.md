@@ -6,6 +6,8 @@ B: Design and Implemnet an app as a long term project
 - build target for main app: `weather`
 - build target for widget: `weatherwidget`
 
+Note: There are occasions that widget doesn't get location data properly in simulator. In that case, try to use a different simulator and do not forget to configure to simulate location.
+
 # Architecture explaination
 ### Widget (weatherwidget)
 Layered Architecture
@@ -20,7 +22,7 @@ Note:
 
 ### Main App (weather)
 Note:
-- Requirement for main app is very simple in main app, and hence a simple View-Controller pattern is used here for time and simplicity reason. If given more time, it can be further architected with MVP, MVVM to improve understandable, flexible, and maintainable. 
+- Requirement for main app is very simple (without data handling) in main app, and hence a simple View-Controller pattern is used here for time and simplicity reason. If given more time, it can be further architected with MVP, MVVM to improve understandable, flexible, and maintainable. 
 - Each screen with design is seperated by different storyboard for simplicity reason
 - LargeWidgetVC, MediumWidget, SmallWidget is intentionally created seperately for extensibility on widget design change (which likely happens)
 
@@ -43,3 +45,8 @@ Note:
 - (main app) loading speed of opening gallery is slow, a spinning activity indicator should be displayed
 - (main app) a view on main app displaying instruction to prompt users to authorize location, if not authorized yet
 - (widget) a different design of view for api error might be required
+
+# Remarks: about Test Codes
+- `struct weatherwidget_Previews: PreviewProvider` has covered different patterns for UIs
+- test codes on infra.framework is in target `infraTests`
+- test codes on DTO, Entity would be great if given enough time.
