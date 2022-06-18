@@ -1,12 +1,25 @@
 # Purpose of app
-B: Design and Implemnet an app as a long term project
+Design and Implement an app as a long term project
+
+# Technology used
+- CoreLocation
+- SwiftUI
+- Storyboard
+- WidgetKit
 
 # Developer's Build environment
 - xcode 13.1, macOS BigSur 11.6, intel mac
 - build target for main app: `weather`
 - build target for widget: `weatherwidget`
 
-Note: There are occasions that widget doesn't get location data properly in simulator. In that case, try to use a different simulator and do not forget to configure to simulate location.
+Note: There are occasions that widget doesn't get location data properly in simulator. In that case, try to use a different simulator, and do not forget to configure to simulate location.
+
+# Screenshots
+![picture 1](images/e8f404a41c2085cd8846801ea8a9d14df2b30021f50bd2613244e42e7c2356ee.png)  
+![picture 2](images/dd06d8c6837dd92a863fd91ef4599774dadb87766e2a3bb1f879b71aefc691dc.png)  
+![picture 3](images/ca1c169ef6ed806d37563dbf9127faaf8e0ff4ef2cc79827b0f3abcd46e06be0.png)  
+![picture 4](images/95685854f07e30a93cb0bc1af86e2ebc42c794676f6b53ca8f054fd85bb2eb94.png)  
+![picture 5](images/9a5d1227ceb658cdd4336b5117949c4577c7d320e2b99b25f898bc749262efb3.png)  
 
 # Architecture explaination
 ### Widget (weatherwidget)
